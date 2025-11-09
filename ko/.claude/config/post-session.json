@@ -1,0 +1,85 @@
+{
+  "project_name": "Example Project",
+  "display": {
+    "separator": "============================================================",
+    "separator_alt": "------------------------------------------------------------"
+  },
+  "messages": {
+    "session_end": "세션 종료 체크",
+    "chromadb_save": "ChromaDB 저장 확인",
+    "chromadb_reminder": "작업 내역을 ChromaDB에 한국어로 저장하세요!",
+    "git_status": "Git 상태",
+    "uncommitted_changes": "커밋되지 않은 변경사항이 있습니다",
+    "all_committed": "모든 변경사항이 커밋되었습니다",
+    "completion_checks": "완료 체크리스트",
+    "session_complete": "세션 종료",
+    "thanks": "수고하셨습니다!"
+  },
+  "save_reminder": {
+    "enabled": true,
+    "collection": "example_project_context",
+    "id_format": "chat_code_YYYYmmdd_HHMMSS",
+    "id_example": "chat_code_20251016_104500",
+    "required_metadata": [
+      "project",
+      "subproject",
+      "date",
+      "type",
+      "summary"
+    ],
+    "optional_metadata": [
+      "files",
+      "tags",
+      "status"
+    ],
+    "metadata_rules": {
+      "project": "항상 example_project",
+      "subproject": "core, auth, fine_tuning, data_pipeline, claude_code_hooks 등",
+      "date": "YYYY-MM-DD 형식",
+      "type": "conversation, feature, bugfix, refactoring, test, analysis, i18n 등",
+      "files": "쉼표로 구분된 문자열 또는 개별 파일명",
+      "summary": "한줄 요약 (간결하게)"
+    }
+  },
+  "git_check": {
+    "enabled": false,
+    "warn_uncommitted": true
+  },
+  "completion_checks": [
+    {
+      "name": "fix_issues",
+      "description": "이번 작업과 무관하다고 넘긴 모든 이슈 수정",
+        "critical": true
+    },
+    {
+      "name": "chromadb_save",
+      "description": "ChromaDB에 작업 이력 저장 (한국어)",
+      "critical": true
+    },
+    {
+      "name": "tests",
+      "description": "테스트 작성 및 실행",
+      "critical": false
+    },
+    {
+      "name": "type_check",
+      "description": "mypy 또는 tsx 타입 체크",
+      "critical": true
+    },
+    {
+      "name": "documentation",
+      "description": "문서화 업데이트",
+      "critical": false
+    }
+  ],
+  "metadata_template": {
+    "project": "example_project",
+    "subproject": "core|auth|fine_tuning|data_pipeline",
+    "date": "YYYY-MM-DD",
+    "type": "conversation|feature|bugfix|refactoring|test|analysis",
+    "summary": "<한줄_요약>",
+    "files": ["파일1.ext", "파일2.ext"],
+    "tags": ["태그1", "태그2"],
+    "status": "completed|in_progress|discussed"
+  }
+}

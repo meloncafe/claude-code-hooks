@@ -1,0 +1,108 @@
+{
+  "project_name": "Example Project",
+  "project_type": "python_fastapi",
+  "primary_collection": "example_project_context",
+  "project_paths": {
+    "docker": "/workspaces/example_project",
+    "mac": "/Users/username/example_project",
+    "wsl": "/mnt/c/Users/username/example_project"
+  },
+  "context_search": {
+    "enabled": true,
+    "collection": "example_project_context",
+    "n_results": 5,
+    "search_queries": [
+      "Example Project Recent Work Session",
+      "Final implementation work",
+      "Current development status"
+    ]
+  },
+  "response_language": "English",
+  "mcp_tools_priority": ["ChromaDB", "Serena", "Morphllm"],
+  "display": {
+    "show_context_search": false,
+    "show_task_instructions": true
+  },
+  "messages": {
+    "session_start": "Example Project Session Start",
+    "date_prefix": "Today's date:",
+    "time_prefix": "Current time:",
+    "environment_prefix": "Current environment:",
+    "project_path_prefix": "Project Path:",
+    "work_context_prefix": "Work context:",
+    "chromadb_collection_prefix": "ChromaDB Collection:",
+    "context_search_guide": "Context Search Guide:",
+    "collection_label": "Collection:",
+    "results_label": "Number of results:",
+    "recommended_queries": "Recommended Search Queries:",
+    "task_instructions": "Work Instructions:",
+    "frontend_guidelines": "Frontend Guidelines:",
+    "code_style": "Code Style Rules:",
+    "work_rules": "Work Rules:",
+    "completion_checklist": "Completion Checklist:",
+    "start_reminder": "Before starting work, search for relevant context in ChromaDB!",
+    "backend_pid_info": "Backend PID file: /tmp/auth-backend.pid (Prevent duplicate execution)",
+    "backend_current_pid": "Current backend PID:",
+    "frontend_pid_info": "Frontend PID file: /tmp/auth-frontend.pid (Prevent duplicate execution)",
+    "frontend_current_pid": "Current front-end PID:",
+    "session_ready": "Session start preparation complete!"
+  },
+  "default_prompt": "CLAUDE.md",
+  "guidelines": [],
+  "code_style_rules": {
+    "comments": {
+      "style": "Google Style (\"\"\" Content begins on the next line.)",
+      "language": "English Basic",
+      "forbidden_phrases": [
+        "advanced",
+        "enhanced",
+        "comprehensive",
+        "AI-like sentences and words"
+      ],
+      "forbidden_names": [
+        "TestMaxCoverage",
+        "Test100Percent"
+      ],
+      "no_redundant_comments": "Prohibit unnecessary comments for simple changes"
+    },
+    "architecture": {
+      "pydantic_models": "Navigate to the schemas package",
+      "model_naming": "Schema/Database models are clearly distinguished by Prefix/Suffix",
+      "utilities": "Common utilities are separated into the utils package.",
+      "imports": "Prohibited: Using relative paths such as .base in import statements",
+      "legacy_cleanup": "Complete Cleanup of Legacy/Deprecated Code",
+      "no_dataclass": "@dataclass cannot be used; replace with Pydantic model and move to schemas.",
+      "no_import_error_hack": "try-except ImportError: Never use as a stopgap solution"
+    }
+  },
+  "work_rules": {
+    "pattern": "Repository/Service",
+    "type_safety": "mypy required",
+    "auto_commit": false
+  },
+  "critical_checklist": {
+    "required": [
+      "Do not ignore errors unrelated to corrections; all errors that occur must be corrected (skipping is prohibited).",
+      "Search for ChromaDB example_project_context before starting work.",
+      "After each task is completed, save to ChromaDB memory (required)"
+    ],
+    "tools": [
+      "Code Work: Serena (Search/Analysis) + Morphllm (Batch Editing)",
+      "For Sentry-integrated projects, check issues raised in Sentry.",
+      "When testing backend/frontend, start/stop the server using the server command in the hooks.py script."
+    ],
+    "validation": [
+      "Passes mypy or tsc type checking",
+      "Avoid using deprecated functions"
+    ],
+    "important": [
+      "Evidence first: When uncertain, verify by reading files or conducting web searches before responding; never provide speculative answers."
+    ]
+  },
+  "completion_checklist": [
+    "Save work to ChromaDB",
+    "Test execution and verification of successful completion",
+    "Passes mypy or tsc type checking",
+    "Final steps after all tasks are completed: python3 .claude/hook_scripts/post_session_hook.py"
+  ]
+}

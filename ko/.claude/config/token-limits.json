@@ -1,0 +1,23 @@
+{
+  "enabled": true,
+  "session_limits": {
+    "warning": 150000,
+    "critical": 180000
+  },
+  "total_limits": {
+    "warning": 400000,
+    "critical": 500000
+  },
+  "display": {
+    "show_on_startup": false,
+    "show_on_normal": true,
+    "show_on_warning": true,
+    "show_on_critical": true,
+    "progress_bar": true,
+    "format": "minimal"
+  },
+  "auto_reset": {
+    "enabled": true,
+    "threshold": 500000
+  }
+}

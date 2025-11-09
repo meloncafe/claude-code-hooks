@@ -1,0 +1,85 @@
+{
+  "project_name": "Example Project",
+  "display": {
+    "separator": "============================================================",
+    "separator_alt": "------------------------------------------------------------"
+  },
+  "messages": {
+    "session_end": "Session termination check",
+    "chromadb_save": "ChromaDB Save Confirmation",
+    "chromadb_reminder": "Save your work history in Korean to ChromaDB!",
+    "git_status": "Git Status",
+    "uncommitted_changes": "There are uncommitted changes.",
+    "all_committed": "All changes have been committed.",
+    "completion_checks": "Completion Checklist",
+    "session_complete": "End of session",
+    "thanks": "Thank you for your hard work!"
+  },
+  "save_reminder": {
+    "enabled": true,
+    "collection": "example_project_context",
+    "id_format": "chat_code_YYYYmmdd_HHMMSS",
+    "id_example": "chat_code_20251016_104500",
+    "required_metadata": [
+      "project",
+      "subproject",
+      "date",
+      "type",
+      "summary"
+    ],
+    "optional_metadata": [
+      "files",
+      "tags",
+      "status"
+    ],
+    "metadata_rules": {
+      "project": "Always example_project",
+      "subproject": "core, auth, fine_tuning, data_pipeline, claude_code_hooks, etc.",
+      "date": "YYYY-MM-DD format",
+      "type": "conversation, feature, bugfix, refactoring, test, analysis, i18n, etc.",
+      "files": "Comma-separated strings or individual filenames",
+      "summary": "One-line summary (concise)"
+    }
+  },
+  "git_check": {
+    "enabled": false,
+    "warn_uncommitted": true
+  },
+  "completion_checks": [
+    {
+      "name": "fix_issues",
+      "description": "All issues dismissed as unrelated to this task have been fixed.",
+        "critical": true
+    },
+    {
+      "name": "chromadb_save",
+      "description": "Save work history to ChromaDB",
+      "critical": true
+    },
+    {
+      "name": "tests",
+      "description": "Test creation and execution",
+      "critical": false
+    },
+    {
+      "name": "type_check",
+      "description": "mypy or tsc type checking",
+      "critical": true
+    },
+    {
+      "name": "documentation",
+      "description": "Documentation Update",
+      "critical": false
+    }
+  ],
+  "metadata_template": {
+    "project": "example_project",
+    "subproject": "core|auth|fine_tuning|data_pipeline",
+    "date": "YYYY-MM-DD",
+    "type": "conversation|feature|bugfix|refactoring|test|analysis",
+    "summary": "<One-Line Summary>",
+    "files": ["File1.ext", "File2.ext"],
+    "tags": ["Tag1", "Tag2"],
+    "status": "completed|in_progress|discussed"
+  }
+}

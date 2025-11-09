@@ -1,0 +1,138 @@
+{
+  "secret_scanner": {
+    "enabled": true,
+    "max_file_size": 1048576,
+    "max_issues_to_show": 10,
+    "high_severity_patterns": [
+      {
+        "pattern": "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+        "description": "Private Key"
+      },
+      {
+        "pattern": "[a-zA-Z0-9+/]{40,}",
+        "description": "API Key or Token (Base64)"
+      },
+      {
+        "pattern": "sk_live_[0-9a-zA-Z]{24,}",
+        "description": "Stripe Live Secret Key"
+      },
+      {
+        "pattern": "sk_test_[0-9a-zA-Z]{24,}",
+        "description": "Stripe Test Secret Key"
+      },
+      {
+        "pattern": "ghp_[0-9a-zA-Z]{36}",
+        "description": "GitHub Personal Access Token"
+      },
+      {
+        "pattern": "gho_[0-9a-zA-Z]{36}",
+        "description": "GitHub OAuth Token"
+      },
+      {
+        "pattern": "ghs_[0-9a-zA-Z]{36}",
+        "description": "GitHub App Token"
+      },
+      {
+        "pattern": "ghr_[0-9a-zA-Z]{36}",
+        "description": "GitHub Refresh Token"
+      },
+      {
+        "pattern": "AKIA[0-9A-Z]{16}",
+        "description": "AWS Access Key ID"
+      },
+      {
+        "pattern": "AIza[0-9A-Za-z\\-_]{35}",
+        "description": "Google API Key"
+      },
+      {
+        "pattern": "ya29\\.[0-9A-Za-z\\-_]+",
+        "description": "Google OAuth Token"
+      }
+    ],
+    "medium_severity_patterns": [
+      {
+        "pattern": "password\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+        "description": "Hardcoded Password"
+      },
+      {
+        "pattern": "api[_-]?key\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+        "description": "API Key Assignment"
+      },
+      {
+        "pattern": "secret\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+        "description": "Secret Assignment"
+      },
+      {
+        "pattern": "token\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+        "description": "Token Assignment"
+      },
+      {
+        "pattern": "auth\\s*[=:]\\s*['\"][^'\"]{8,}['\"]",
+        "description": "Auth Credentials"
+      },
+      {
+        "pattern": "postgres://[^\\s]+:[^\\s]+@",
+        "description": "PostgreSQL Connection String"
+      },
+      {
+        "pattern": "mysql://[^\\s]+:[^\\s]+@",
+        "description": "MySQL Connection String"
+      },
+      {
+        "pattern": "mongodb(\\+srv)?://[^\\s]+:[^\\s]+@",
+        "description": "MongoDB Connection String"
+      }
+    ],
+    "allowed_patterns": [
+      {
+        "pattern": "password\\s*[=:]\\s*['\"]\\*+['\"]",
+        "description": "Masked Password (asterisks)"
+      },
+      {
+        "pattern": "password\\s*[=:]\\s*['\"]xxx+['\"]",
+        "description": "Placeholder Password"
+      },
+      {
+        "pattern": "api[_-]?key\\s*[=:]\\s*['\"]your[_-]?api[_-]?key['\"]",
+        "description": "Placeholder API Key"
+      },
+      {
+        "pattern": "secret\\s*[=:]\\s*['\"]your[_-]?secret['\"]",
+        "description": "Placeholder Secret"
+      },
+      {
+        "pattern": "token\\s*[=:]\\s*['\"]your[_-]?token['\"]",
+        "description": "Placeholder Token"
+      },
+      {
+        "pattern": "['\"]example\\.com['\"]",
+        "description": "Example Domain"
+      },
+      {
+        "pattern": "['\"]test['\"]",
+        "description": "Test String"
+      },
+      {
+        "pattern": "-----BEGIN CERTIFICATE-----",
+        "description": "Public Certificate (Safe)"
+      }
+    ],
+    "skip_extensions": [
+      ".md",
+      ".txt",
+      ".json",
+      ".lock",
+      ".sum",
+      ".mod"
+    ],
+    "skip_directories": [
+      "node_modules",
+      ".git",
+      "dist",
+      "build",
+      "__pycache__",
+      ".venv",
+      "venv"
+    ]
+  }
+}

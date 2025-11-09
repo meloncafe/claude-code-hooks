@@ -1,0 +1,92 @@
+{
+  "no_mock_code": {
+    "enabled": true,
+    "max_file_size": 1000000,
+    "placeholder_patterns": {
+      "names": [
+        "\\b(?:John|Jane)\\s+(?:Doe|Smith)\\b",
+        "\\bTest\\s+User\\b",
+        "\\bDemo\\s+(?:User|Account|Company)\\b",
+        "\\bExample\\s+(?:User|Name|Company)\\b",
+        "\\bSample\\s+\\w+\\b",
+        "\\bACME\\s+(?:Corp|Inc|Company)\\b"
+      ],
+      "emails": [
+        "\\b[\\w.]+@(?:test|example|demo|sample|temp|fake)\\.(?:com|org|net)\\b",
+        "\\btest[\\w]*@[\\w]+\\.[\\w]+\\b",
+        "\\b(?:user|admin|demo)@(?:localhost|127\\.0\\.0\\.1)\\b"
+      ],
+      "phones": [
+        "\\b(?:123-?456-?7890|555-?(?:0[1-9]|[1-9])\\d{2}-?\\d{4})\\b",
+        "\\b\\(555\\)\\s*\\d{3}-?\\d{4}\\b",
+        "\\b1234567890\\b"
+      ],
+      "addresses": [
+        "\\b123\\s+(?:Main|Test|Demo|Sample)\\s+(?:St|Street|Ave|Avenue)\\b",
+        "\\b(?:Test|Demo|Sample)\\s+(?:Address|Location)\\b"
+      ],
+      "lorem": [
+        "\\blorem\\s+ipsum\\b",
+        "\\bdolor\\s+sit\\s+amet\\b",
+        "\\bconsectetur\\s+adipiscing\\b"
+      ],
+      "urls": [
+        "https?://(?:example|test|demo|sample)\\.(?:com|org|net)",
+        "https?://localhost(?::\\d+)?(?:/\\S*)?",
+        "https?://127\\.0\\.0\\.1(?::\\d+)?(?:/\\S*)?"
+      ],
+      "ids": [
+        "\\b(?:12345|00000|11111|99999)\\b",
+        "\\b[0-9a-f]{8}-0000-0000-0000-[0-9a-f]{12}\\b",
+        "\\btest[-_]?id[-_]?\\d*\\b"
+      ],
+      "dates": [
+        "\\b(?:2024|2020|2000)-01-01\\b",
+        "\\b1970-01-01\\b"
+      ]
+    },
+    "severity_mapping": {
+      "lorem": "high",
+      "names": "high",
+      "emails": "high",
+      "static_return": "high",
+      "todo_no_impl": "high",
+      "fake_async": "medium",
+      "commented_real_code": "medium",
+      "phones": "medium",
+      "addresses": "medium",
+      "urls": "low",
+      "ids": "low",
+      "dates": "low"
+    },
+    "doc_keywords": [
+      "example:",
+      "e.g.",
+      "usage:",
+      "sample:",
+      "demo:",
+      "for instance",
+      "such as",
+      "like this",
+      "@example",
+      "@usage",
+      "@param",
+      "@returns"
+    ],
+    "skip_patterns": [
+      "test.",
+      "spec.",
+      "__tests__",
+      "mock",
+      ".stories.",
+      "seed",
+      "fixture",
+      "example",
+      ".test.",
+      ".spec.",
+      "test_",
+      "_test.py",
+      "conftest.py"
+    ]
+  }
+}

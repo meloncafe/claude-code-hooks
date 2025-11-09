@@ -1,0 +1,47 @@
+{
+  "enabled": true,
+  "triggers": {
+    "token_threshold": 150000,
+    "message_count": 50,
+    "auto_compact_on_threshold": true,
+    "save_on_critical": true
+  },
+  "compact_strategy": {
+    "method": "intelligent_api",
+    "keep_recent_messages": 10,
+    "summary_length": "medium",
+    "preserve_code_blocks": true,
+    "preserve_decisions": true,
+    "focus_areas": ["Work", "Decisions", "Code Changes", "Problem Solving"],
+    "max_summary_tokens": 4000
+  },
+  "backup": {
+    "enabled": true,
+    "backup_before_compact": true,
+    "backup_location": ".claude/backups",
+    "max_backups": 10,
+    "compress": false,
+    "auto_save_to_chromadb": true
+  },
+  "recovery": {
+    "save_compact_state": true,
+    "recovery_file": ".claude/recovery/compact-recovery.json",
+    "recent_message_count": 5,
+    "max_summary_tokens": 5000,
+    "threshold_hours": 24
+  },
+  "chromadb_integration": {
+    "save_to_chromadb": true,
+    "collection": "example_project_context",
+    "save_summary": true,
+    "metadata_template": {
+      "project": "example_project",
+      "subproject": "core",
+      "date": "YYYY-MM-DD",
+      "type": "conversation",
+      "summary": "Automatic Compression Occurrence - Conversation Summary",
+      "tags": "auto-compact, summary",
+      "status": "completed"
+    }
+  }
+}

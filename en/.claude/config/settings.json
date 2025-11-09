@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "project": "example_project",
+  "description": "Example Project global settings for Claude Code hooks and utilities",
+
+  "sentry": {
+    "enabled": true,
+    "organization": "sentry_org",
+    "projects": ["example-project"],
+    "dsn": "https://sentry_dsn",
+    "environment": "development",
+    "traces_sample_rate": 1.0,
+    "profiles_sample_rate": 1.0,
+    "send_default_pii": false,
+    "attach_stacktrace": true,
+    "max_breadcrumbs": 50,
+    "before_send": "filter_sensitive_data",
+    "integrations": {
+      "logging": true,
+      "threading": true,
+      "modules": true,
+      "argv": true
+    },
+    "tags": {
+      "project": "example_project",
+      "component": "claude_code_hooks"
+    }
+  },
+
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "handlers": ["console", "file", "sentry"],
+    "log_dir": ".claude/logs/hooks",
+    "rotation": {
+      "enabled": true,
+      "max_files": 10,
+      "max_size_mb": 10
+    },
+    "timestamp_format": "%Y-%m-%d %H:%M:%S",
+    "include_level": true,
+    "include_script_name": true
+  }
+}

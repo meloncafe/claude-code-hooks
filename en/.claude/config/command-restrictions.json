@@ -1,0 +1,514 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "bash_restrictions": [
+    {
+      "name": "sed command",
+      "patterns": [
+        {
+          "pattern": "\\bsed\\b",
+          "type": "regex"
+        },
+        {
+          "pattern": "*sed * -i*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*sed -i*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "The sed command is prohibited for direct use.",
+      "alternatives": [
+        "Recommended: Use morphllm:fast_apply MCP for bulk modifications.",
+        "MCP not visible, first attempt: Use the str_replace tool",
+        "MCP not visible, secondary: Use the Filesystem:edit_file tool",
+        "Final alternative: Implement file processing using Python"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "awk command",
+      "patterns": [
+        {
+          "pattern": "\\bawk\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "Use Python scripts instead of the awk command.",
+      "alternatives": [
+        "Recommended: Implement text processing using Python.",
+        "Process your data using pandas."
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "find -exec rm pattern",
+      "patterns": [
+        {
+          "pattern": "find*-exec*rm*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "find -exec rm is a dangerous pattern",
+      "alternatives": [
+        "Implement file deletion using explicit Python scripts.",
+        "Check the file list before deleting."
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "curl/wget silent download",
+      "patterns": [
+        {
+          "pattern": "curl*-o*/dev/null*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "wget*-O*-*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "External resource downloads must be explicitly handled.",
+      "alternatives": [
+        "Use tavily:tavily_extract to import content.",
+        "Download explicitly using the requests library in Python"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "curl -X POST/PUT/DELETE",
+      "patterns": [
+        {
+          "pattern": "curl*-X*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*-d*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--request*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data-raw*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data-binary*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--form*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--header*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "Do not send POST/PUT/DELETE requests using curl.",
+      "alternatives": [
+        "For frontend testing, use the Chrome DevTools MCP tool.",
+        "For simple backend requests, use Python's requests library."
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "timeout command",
+      "patterns": [
+        {
+          "pattern": "timeout *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "\\btimeout\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "Instead of using timeout, read the shell output using the built-in Background Task tool.",
+      "alternatives": [
+        "Use the Background Task tool to continuously monitor output."
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "Run uvicorn/main directly",
+      "patterns": [
+        {
+          "pattern": "uvicorn *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*uvicorn *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry run uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*poetry run uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "python*-m uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*python*-m uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "python3*-m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*python3*-m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry*python*-m*auth*2>&1*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry run python -m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*poetry run python -m auth*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "Direct execution of uvicorn is prohibited. To prevent database location confusion, use only standardized methods.",
+      "alternatives": [
+        "Using the server command in claude/hooks.py"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "Run yarn dev directly",
+      "patterns": [
+        {
+          "pattern": "yarn dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*yarn dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "npm run dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*npm run dev*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "Direct front-end execution is prohibited. Use only standardized methods for PID file management.",
+      "alternatives": [
+        "python3 /example_project/.claude/hook_scripts/server_utils.py start-frontend <Path>",
+        "Using the server command in claude/hooks.py"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "Prohibition of using the cd command",
+      "patterns": [
+        {
+          "pattern": "cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "* cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*&& cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "* && cd *",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "The `cd` command permanently changes the working directory in persistent shells, causing hook execution failures.",
+      "alternatives": [
+        "Use absolute paths: poetry run alembic -c /absolute/path/to/alembic.ini ...",
+        "poetry --directory Option: poetry --directory <path> run <command>",
+        "Utilisation des variables d'environnement: PYTHONPATH=<path> poetry run <command>"
+      ],
+      "severity": "critical",
+      "enabled": true
+    }
+  ],
+  "tool_restrictions": [
+    {
+      "tool_name": "Edit",
+      "enabled": false,
+      "reason": "Use of the Edit tool is restricted.",
+      "alternatives": [
+        "Recommended: Use morphllm:fast_apply MCP for bulk modifications.",
+        "MCP Invisible First: Use the str_replace tool",
+        "MCP Not Visible Secondary: Use the Filesystem:edit_file tool",
+        "Last resort: Create a new file using the create_file tool.,"
+      ],
+      "severity": "high"
+    },
+    {
+      "tool_name": "WebFetch",
+      "enabled": true,
+      "reason": "You should use Tavily MCP instead of the WebFetch tool.",
+      "alternatives": [
+        "tavily:tavily_search - Perform a web search",
+        "tavily:tavily_extract - Extracting content from a specific URL",
+        "tavily:tavily_crawl - Website Crawling",
+        "tavily:tavily_map - Website Structure Mapping"
+      ],
+      "severity": "critical"
+    },
+    {
+      "tool_name": "WebSearch",
+      "enabled": true,
+      "reason": "You should use Tavily MCP instead of the default WebSearch.",
+      "alternatives": [
+        "tavily:tavily_search - More accurate and detailed web search",
+        "tavily:tavily_extract - Direct content extraction from URLs"
+      ],
+      "severity": "high"
+    }
+  ],
+  "warning_patterns": [
+    {
+      "name": "Using sudo",
+      "patterns": [
+        {
+          "pattern": "\\bsudo\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "Using sudo can impact system security.",
+      "alternatives": [
+        "Make sure it's truly necessary.",
+        "Work with standard privileges whenever possible."
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "rm -rf usage",
+      "patterns": [
+        {
+          "pattern": "rm*-rf*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "rm*-fr*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "rm -rf performs irreversible deletion.",
+      "alternatives": [
+        "Check the file list before deleting.",
+        "Back up important data."
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "Using git restore/checkout",
+      "patterns": [
+        {
+          "pattern": "git restore*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "git checkout*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "git reset --hard*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "git restore/checkout/reset --hard reverts changes without confirmation.",
+      "alternatives": [
+        "Check the changes first using git diff.",
+        "Use `git stash` to temporarily save changes, then restore them when needed.",
+        "Make sure you really need to return it."
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "Execute session termination hook",
+      "patterns": [
+        {
+          "pattern": "*post_session_hook.py*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*post-session-hook.py*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "I am about to execute the session cleanup process.",
+      "alternatives": [
+        "Git status verification and ChromaDB storage status checks are performed.",
+        "The final report is generated.",
+        "Please approve to proceed."
+      ],
+      "severity": "medium",
+      "enabled": true
+    }
+  ],
+  "allowlist": [
+    {
+      "pattern": "sed -n '*p'",
+      "type": "wildcard",
+      "reason": "Using sed for line output is safe."
+    },
+    {
+      "pattern": "sed*.claude/config/*",
+      "type": "wildcard",
+      "reason": "sed for processing configuration files is permitted"
+    },
+    {
+      "pattern": "cat *",
+      "type": "wildcard",
+      "reason": "File access is safe."
+    },
+    {
+      "pattern": "echo *",
+      "type": "wildcard",
+      "reason": "The echo command is safe."
+    },
+    {
+      "pattern": "ls *",
+      "type": "wildcard",
+      "reason": "Directory lookup is safe."
+    },
+    {
+      "pattern": "pwd*",
+      "type": "wildcard",
+      "reason": "Checking the current directory is safe."
+    },
+    {
+      "pattern": "grep *",
+      "type": "wildcard",
+      "reason": "Text search is safe."
+    },
+    {
+      "pattern": "head *",
+      "type": "wildcard",
+      "reason": "Checking the beginning of the file is safe."
+    },
+    {
+      "pattern": "tail *",
+      "type": "wildcard",
+      "reason": "Checking the end of the file is safe.",
+      "comment": "When checking server error logs, first verify the Sentry integration. If integrated, check the Sentry issue."
+    },
+    {
+      "pattern": "wc *",
+      "type": "wildcard",
+      "reason": "Line/word count is safe"
+    },
+    {
+      "pattern": "tree *",
+      "type": "wildcard",
+      "reason": "Directory tree lookup is safe"
+    },
+    {
+      "pattern": "diff *",
+      "type": "wildcard",
+      "reason": "File comparison is safe."
+    },
+    {
+      "pattern": "mkdir *",
+      "type": "wildcard",
+      "reason": "Creating directories is safe."
+    },
+    {
+      "pattern": "touch *",
+      "type": "wildcard",
+      "reason": "Creating empty files is safe."
+    },
+    {
+      "pattern": "cp *",
+      "type": "wildcard",
+      "reason": "File copying is safe."
+    },
+    {
+      "pattern": "mv *",
+      "type": "wildcard",
+      "reason": "Moving/renaming files is safe."
+    },
+    {
+      "pattern": "find * -name *",
+      "type": "wildcard",
+      "reason": "File search is safe."
+    },
+    {
+      "pattern": "python3 *",
+      "type": "wildcard",
+      "reason": "Running Python is safe."
+    },
+    {
+      "pattern": "git status*",
+      "type": "wildcard",
+      "reason": "Git status check is safe"
+    },
+    {
+      "pattern": "git log*",
+      "type": "wildcard",
+      "reason": "Checking Git logs is safe."
+    },
+    {
+      "pattern": "git diff*",
+      "type": "wildcard",
+      "reason": "Git diff is safe"
+    },
+    {
+      "pattern": "git show*",
+      "type": "wildcard",
+      "reason": "Git show is safe"
+    },
+    {
+      "pattern": "npm run*",
+      "type": "wildcard",
+      "reason": "Running npm scripts is safe."
+    },
+    {
+      "pattern": "poetry *",
+      "type": "wildcard",
+      "reason": "Executing the Poetry command is safe."
+    },
+    {
+      "pattern": "python3 */hooks.py*",
+      "type": "wildcard",
+      "reason": "The Hook management utility script is safe."
+    }
+  ],
+  "settings": {
+    "warning_only_mode": false,
+    "allow_user_override": false,
+    "logging_enabled": true,
+    "sentry_enabled": true,
+    "use_settings_local": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "project_name": "Example Project",
+  "project_type": "python_fastapi",
+  "primary_collection": "example_project_context",
+  "project_paths": {
+    "docker": "/workspaces/example_project",
+    "mac": "/Users/username/example_project",
+    "wsl": "/mnt/c/Users/username/example_project"
+  },
+  "context_search": {
+    "enabled": true,
+    "collection": "example_project_context",
+    "n_results": 5,
+    "search_queries": [
+      "Example Project 최근 작업 session",
+      "마지막 구현 작업",
+      "현재 개발 상태"
+    ]
+  },
+  "response_language": "한국어",
+  "mcp_tools_priority": ["ChromaDB", "Serena", "Morphllm"],
+  "display": {
+    "show_context_search": false,
+    "show_task_instructions": true
+  },
+  "messages": {
+    "session_start": "Example Project 세션 시작",
+    "date_prefix": "오늘 날짜:",
+    "time_prefix": "현재 시간:",
+    "environment_prefix": "현재 환경:",
+    "project_path_prefix": "프로젝트 경로:",
+    "work_context_prefix": "작업 컨텍스트:",
+    "chromadb_collection_prefix": "ChromaDB 컬렉션:",
+    "context_search_guide": "컨텍스트 검색 가이드:",
+    "collection_label": "컬렉션:",
+    "results_label": "결과 수:",
+    "recommended_queries": "추천 검색 쿼리:",
+    "task_instructions": "작업 지침:",
+    "frontend_guidelines": "프론트엔드 가이드라인:",
+    "code_style": "코드 스타일 규칙:",
+    "work_rules": "작업 규칙:",
+    "completion_checklist": "완료 체크리스트:",
+    "start_reminder": "작업을 시작하기 전에 ChromaDB에서 관련 컨텍스트를 검색하세요!",
+    "backend_pid_info": "백엔드 PID 파일: /tmp/auth-backend.pid (중복 실행 금지)",
+    "backend_current_pid": "현재 백엔드 PID:",
+    "frontend_pid_info": "프론트엔드 PID 파일: /tmp/auth-frontend.pid (중복 실행 금지)",
+    "frontend_current_pid": "현재 프론트엔드 PID:",
+    "session_ready": "세션 시작 준비 완료!"
+  },
+  "default_prompt": "CLAUDE.md",
+  "guidelines": [],
+  "code_style_rules": {
+    "comments": {
+      "style": "Google Style (\"\"\" 다음 줄부터 내용 시작)",
+      "language": "영어 기본 + 한국어 병행 (다국어 지원시)",
+      "forbidden_phrases": [
+        "~~를 기반으로 한",
+        "~~를 위한",
+        "advanced",
+        "enhanced",
+        "포괄적인",
+        "comprehensive",
+        "AI 스러운 문장 및 단어"
+      ],
+      "forbidden_names": [
+        "TestMaxCoverage",
+        "Test100Percent"
+      ],
+      "no_redundant_comments": "단순 변경에 불필요한 주석 금지"
+    },
+    "architecture": {
+      "pydantic_models": "schemas 패키지로 이동",
+      "model_naming": "Schema/Database 모델은 Prefix/Suffix로 명확히 구분",
+      "utilities": "공통 유틸리티는 utils 패키지로 분리",
+      "imports": "import 경로에서 .base 등 상대 경로 사용 금지",
+      "legacy_cleanup": "Legacy/Deprecated 코드 전면 정리",
+      "no_dataclass": "@dataclass 사용 불가, Pydantic 모델로 대체 후 schemas로 이동",
+      "no_import_error_hack": "try-except ImportError 임시방편 절대 사용 금지"
+    }
+  },
+  "work_rules": {
+    "pattern": "Repository/Service",
+    "type_safety": "mypy 필수",
+    "auto_commit": false
+  },
+  "critical_checklist": {
+    "required": [
+      "수정과 무관한 오류라고 무시하지 말고 발생한 오류는 반드시 수정할 것 (스킵 금지)",
+      "작업 시작 전 ChromaDB example_project_context 검색 필수",
+      "하나의 작업이 끝날 때마다 ChromaDB 메모리에 저장 (필수)"
+    ],
+    "tools": [
+      "코드 작업: Serena (검색/분석) + Morphllm (일괄수정)",
+      "Sentry 통합된 프로젝트의 경우 Sentry에서 발생한 이슈 확인",
+      "백엔드/프론트엔드 테스트 시 hooks.py 스크립트의 server 명령어로 서버 시작/종료"
+    ],
+    "validation": [
+      "mypy 또는 tsc 타입 체크 통과",
+      "deprecated 함수 사용 금지"
+    ],
+    "important": [
+      "근거 우선: 불확실한 경우 파일을 읽거나 웹 검색하여 확인 후 답변, 추측성 답변 절대 금지"
+    ]
+  },
+  "completion_checklist": [
+    "ChromaDB에 작업 내용 저장 (한국어)",
+    "테스트 실행 및 통과 확인",
+    "mypy 또는 tsc 타입 체크 통과",
+    "모든 작업 완료 후 마무리: python3 .claude/hook_scripts/post_session_hook.py"
+  ]
+}

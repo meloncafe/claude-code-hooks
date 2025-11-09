@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "project": "example_project",
+  "description": "Git hooks configuration",
+
+  "commit_validation": {
+    "enabled": true,
+    "conventional_commits": true,
+    "block_co_authored": true,
+    "forbidden_git_options": [
+      "--no-verify",
+      "--no-gpg-sign",
+      "git -C",
+      "gpgsign=false"
+    ],
+    "git_usage_rules": [
+      "GPG signature required (--no-gpg-sign prohibited)",
+      "Hook verification required (--no-verify prohibited)",
+      "Prohibited: Changing the working directory (Prohibited: git -C)",
+      "Do not modify gpgsign settings"
+    ],
+
+    "types": [
+      "feat",
+      "fix",
+      "docs",
+      "style",
+      "refactor",
+      "test",
+      "chore",
+      "perf",
+      "ci",
+      "build",
+      "revert"
+    ],
+
+    "scopes": [
+      "auth",
+      "session",
+      "user",
+      "token",
+      "device",
+      "email",
+      "hooks",
+      "schema",
+      "service",
+      "repository",
+      "api",
+      "test",
+      "config",
+      "deps",
+      "core"
+    ],
+
+    "forbidden_patterns": [
+      "TODO",
+      "FIXME",
+      "XXX",
+      "HACK"
+    ],
+
+    "max_subject_length": 72,
+    "max_body_line_length": 100,
+
+    "imperative_verbs": [
+      "add",
+      "fix",
+      "update",
+      "remove",
+      "refactor",
+      "implement",
+      "improve",
+      "optimize",
+      "enhance",
+      "resolve"
+    ]
+  },
+
+  "timestamp_validation": {
+    "enabled": true,
+
+    "validate_extensions": [
+      ".md",
+      ".rst",
+      ".txt",
+      ".yaml",
+      ".yml",
+      ".json"
+    ],
+
+    "special_files": [
+      "CHANGELOG.md",
+      "CHANGELOG.rst",
+      "HISTORY.md",
+      "RELEASES.md"
+    ],
+
+    "min_date_offset_days": -365,
+    "max_date_offset_days": 30,
+
+    "date_formats": [
+      "%Y-%m-%d",
+      "%m/%d/%Y",
+      "%d.%m.%Y",
+      "%B %d, %Y"
+    ]
+  }
+}

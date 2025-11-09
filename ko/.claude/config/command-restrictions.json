@@ -1,0 +1,535 @@
+{
+  "version": "1.0.0",
+  "enabled": true,
+  "bash_restrictions": [
+    {
+      "name": "sed 명령어",
+      "patterns": [
+        {
+          "pattern": "\\bsed\\b",
+          "type": "regex"
+        },
+        {
+          "pattern": "*sed * -i*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*sed -i*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "sed 명령어는 직접 사용이 금지됩니다",
+      "alternatives": [
+        "권장: morphllm:fast_apply MCP를 사용하여 대량 수정하세요",
+        "MCP 불가시 1차: str_replace 도구를 사용하세요",
+        "MCP 불가시 2차: Filesystem:edit_file 도구를 사용하세요",
+        "마지막 대안: Python으로 파일 처리를 구현하세요"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "awk 명령어",
+      "patterns": [
+        {
+          "pattern": "\\bawk\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "awk 명령어 대신 Python 스크립트를 사용하세요",
+      "alternatives": [
+        "권장: Python으로 텍스트 처리를 구현하세요",
+        "pandas를 사용하여 데이터를 처리하세요"
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "perl 원라이너",
+      "patterns": [
+        {
+          "pattern": "\\bperl\\b.*-[pi]e",
+          "type": "regex"
+        }
+      ],
+      "reason": "perl 원라이너는 가독성이 떨어집니다",
+      "alternatives": [
+        "Python 스크립트로 명확하게 작성하세요",
+        "str_replace 도구를 사용하세요"
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "find -exec rm 패턴",
+      "patterns": [
+        {
+          "pattern": "find*-exec*rm*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "find -exec rm은 위험한 패턴입니다",
+      "alternatives": [
+        "명시적인 Python 스크립트로 파일 삭제를 구현하세요",
+        "삭제 전에 파일 목록을 먼저 확인하세요"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "curl/wget silent download",
+      "patterns": [
+        {
+          "pattern": "curl*-o*/dev/null*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "wget*-O*-*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "외부 리소스 다운로드는 명시적으로 처리해야 합니다",
+      "alternatives": [
+        "tavily:tavily_extract를 사용하여 콘텐츠를 가져오세요",
+        "requests 라이브러리로 Python에서 명시적으로 다운로드하세요"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "curl -X POST/PUT/DELETE",
+      "patterns": [
+        {
+          "pattern": "curl*-X*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*-d*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--request*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data-raw*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--data-binary*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--form*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "curl*--header*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "curl로 POST/PUT/DELETE 요청을 보내지 마세요",
+      "alternatives": [
+        "프론트엔드 테스트일 경우 Chrome DevTools MCP 도구를 사용하세요",
+        "단순 백엔드 요청일 경우 Python의 requests 라이브러리를 사용하세요"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "timeout 명령어",
+      "patterns": [
+        {
+          "pattern": "timeout *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "\\btimeout\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "timeout 대신 내장되어 있는 Background Task 도구를 사용해서 쉘 Output을 읽으세요",
+      "alternatives": [
+        "Background Task 도구를 사용하여 지속적으로 출력을 모니터링하세요"
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "직접 uvicorn/main 실행",
+      "patterns": [
+        {
+          "pattern": "uvicorn *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*uvicorn *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry run uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*poetry run uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "python*-m uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*python*-m uvicorn*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "python3*-m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*python3*-m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry*python*-m*auth*2>&1*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "poetry run python -m auth*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*poetry run python -m auth*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "uvicorn 직접 실행은 금지됩니다. 데이터베이스 위치 혼란 방지를 위해 표준화된 방법만 사용하세요",
+      "alternatives": [
+        ".claude/hooks.py의 server 명령어 사용"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "직접 yarn dev 실행",
+      "patterns": [
+        {
+          "pattern": "yarn dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*yarn dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "npm run dev*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*npm run dev*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "프론트엔드 직접 실행은 금지됩니다. PID 파일 관리를 위해 표준화된 방법만 사용하세요",
+      "alternatives": [
+        "python3 /Users/username/example_project/.claude/hook_scripts/server_utils.py start-frontend <경로>",
+        ".claude/hooks.py의 server 명령어 사용"
+      ],
+      "severity": "critical",
+      "enabled": true
+    },
+    {
+      "name": "cd 명령어 사용 금지",
+      "patterns": [
+        {
+          "pattern": "cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "* cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*&& cd *",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "* && cd *",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "cd 명령어는 persistent shell에서 작업 디렉토리를 영구 변경하여 hook 실행 실패를 유발합니다",
+      "alternatives": [
+        "절대 경로 사용: poetry run alembic -c /absolute/path/to/alembic.ini ...",
+        "poetry --directory 옵션: poetry --directory <path> run <command>",
+        "환경변수 사용: PYTHONPATH=<path> poetry run <command>"
+      ],
+      "severity": "critical",
+      "enabled": true
+    }
+  ],
+  "tool_restrictions": [
+    {
+      "tool_name": "Edit",
+      "enabled": false,
+      "reason": "Edit 도구 사용이 제한됩니다",
+      "alternatives": [
+        "권장: morphllm:fast_apply MCP를 사용하여 대량 수정하세요",
+        "MCP 불가시 1차: str_replace 도구를 사용하세요",
+        "MCP 불가시 2차: Filesystem:edit_file 도구를 사용하세요",
+        "마지막 대안: create_file 도구로 새 파일을 생성하세요"
+      ],
+      "severity": "high"
+    },
+    {
+      "tool_name": "WebFetch",
+      "enabled": true,
+      "reason": "WebFetch 도구 대신 Tavily MCP를 사용해야 합니다",
+      "alternatives": [
+        "tavily:tavily_search - 웹 검색 수행",
+        "tavily:tavily_extract - 특정 URL에서 콘텐츠 추출",
+        "tavily:tavily_crawl - 웹사이트 크롤링",
+        "tavily:tavily_map - 웹사이트 구조 매핑"
+      ],
+      "severity": "critical"
+    },
+    {
+      "tool_name": "WebSearch",
+      "enabled": true,
+      "reason": "기본 WebSearch 대신 Tavily MCP를 사용해야 합니다",
+      "alternatives": [
+        "tavily:tavily_search - 더 정확하고 상세한 웹 검색",
+        "tavily:tavily_extract - URL에서 직접 콘텐츠 추출"
+      ],
+      "severity": "high"
+    }
+  ],
+  "warning_patterns": [
+    {
+      "name": "sudo 사용",
+      "patterns": [
+        {
+          "pattern": "\\bsudo\\b",
+          "type": "regex"
+        }
+      ],
+      "reason": "sudo 사용은 시스템 보안에 영향을 줄 수 있습니다",
+      "alternatives": [
+        "정말 필요한 경우인지 확인하세요",
+        "가능하면 일반 권한으로 작업하세요"
+      ],
+      "severity": "medium",
+      "enabled": true
+    },
+    {
+      "name": "rm -rf 사용",
+      "patterns": [
+        {
+          "pattern": "rm*-rf*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "rm*-fr*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "rm -rf는 복구 불가능한 삭제를 수행합니다",
+      "alternatives": [
+        "삭제 전에 파일 목록을 확인하세요",
+        "중요한 데이터는 백업하세요"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "git restore/checkout 사용",
+      "patterns": [
+        {
+          "pattern": "git restore*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "git checkout*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "git reset --hard*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "git restore/checkout/reset --hard는 변경사항을 확인 없이 되돌립니다",
+      "alternatives": [
+        "git diff로 변경 내용을 먼저 확인하세요",
+        "git stash로 임시 저장 후 필요시 복구하세요",
+        "정말 되돌려야 하는지 확인하세요"
+      ],
+      "severity": "high",
+      "enabled": true
+    },
+    {
+      "name": "세션 마무리 훅 실행",
+      "patterns": [
+        {
+          "pattern": "*post_session_hook.py*",
+          "type": "wildcard"
+        },
+        {
+          "pattern": "*post-session-hook.py*",
+          "type": "wildcard"
+        }
+      ],
+      "reason": "세션 마무리 작업을 실행하려고 합니다",
+      "alternatives": [
+        "Git 상태 확인 및 ChromaDB 저장 여부 점검이 수행됩니다",
+        "마무리 리포트가 생성됩니다",
+        "진행하려면 승인하세요"
+      ],
+      "severity": "medium",
+      "enabled": true
+    }
+  ],
+  "allowlist": [
+    {
+      "pattern": "sed -n '*p'",
+      "type": "wildcard",
+      "reason": "라인 출력용 sed는 안전함"
+    },
+    {
+      "pattern": "sed*.claude/config/*",
+      "type": "wildcard",
+      "reason": "설정 파일 처리용 sed는 허용"
+    },
+    {
+      "pattern": "cat *",
+      "type": "wildcard",
+      "reason": "파일 조회는 안전함"
+    },
+    {
+      "pattern": "echo *",
+      "type": "wildcard",
+      "reason": "echo 명령어는 안전함"
+    },
+    {
+      "pattern": "ls *",
+      "type": "wildcard",
+      "reason": "디렉토리 조회는 안전함"
+    },
+    {
+      "pattern": "pwd*",
+      "type": "wildcard",
+      "reason": "현재 디렉토리 확인은 안전함"
+    },
+    {
+      "pattern": "grep *",
+      "type": "wildcard",
+      "reason": "텍스트 검색은 안전함"
+    },
+    {
+      "pattern": "head *",
+      "type": "wildcard",
+      "reason": "파일 앞부분 조회는 안전함"
+    },
+    {
+      "pattern": "tail *",
+      "type": "wildcard",
+      "reason": "파일 뒷부분 조회는 안전함",
+      "comment": "서버 오류 로그 확인시에는 먼저 Sentry 통합 확인 후 통합되어 있다면 Sentry 이슈를 확인하세요"
+    },
+    {
+      "pattern": "wc *",
+      "type": "wildcard",
+      "reason": "라인/단어 카운트는 안전함"
+    },
+    {
+      "pattern": "tree *",
+      "type": "wildcard",
+      "reason": "디렉토리 트리 조회는 안전함"
+    },
+    {
+      "pattern": "diff *",
+      "type": "wildcard",
+      "reason": "파일 비교는 안전함"
+    },
+    {
+      "pattern": "mkdir *",
+      "type": "wildcard",
+      "reason": "디렉토리 생성은 안전함"
+    },
+    {
+      "pattern": "touch *",
+      "type": "wildcard",
+      "reason": "빈 파일 생성은 안전함"
+    },
+    {
+      "pattern": "cp *",
+      "type": "wildcard",
+      "reason": "파일 복사는 안전함"
+    },
+    {
+      "pattern": "mv *",
+      "type": "wildcard",
+      "reason": "파일 이동/이름변경은 안전함"
+    },
+    {
+      "pattern": "find * -name *",
+      "type": "wildcard",
+      "reason": "파일 검색은 안전함"
+    },
+    {
+      "pattern": "python -m *",
+      "type": "wildcard",
+      "comment": "개발 서버 실행일 경우:\n1. 먼저 python3 /Users/username/example_project/.claude/hook_scripts/server_utils.py status <frontend|backend>로 상태 확인\n2. 실행 중이면 기존 프로세스 활용 또는 stop 후 재시작\n3. 새로 시작할 경우 start-frontend/start-backend 명령 사용 (자동으로 PID 관리)"
+    },
+    {
+      "pattern": "python3 *",
+      "type": "wildcard",
+      "reason": "Python 실행은 안전함"
+    },
+    {
+      "pattern": "git status*",
+      "type": "wildcard",
+      "reason": "Git 상태 확인은 안전함"
+    },
+    {
+      "pattern": "git log*",
+      "type": "wildcard",
+      "reason": "Git 로그 조회는 안전함"
+    },
+    {
+      "pattern": "git diff*",
+      "type": "wildcard",
+      "reason": "Git diff는 안전함"
+    },
+    {
+      "pattern": "git show*",
+      "type": "wildcard",
+      "reason": "Git show는 안전함"
+    },
+    {
+      "pattern": "npm run*",
+      "type": "wildcard",
+      "reason": "npm 스크립트 실행은 안전함"
+    },
+    {
+      "pattern": "poetry *",
+      "type": "wildcard",
+      "reason": "Poetry 명령어 실행은 안전함"
+    },
+    {
+      "pattern": "python3 */hooks.py*",
+      "type": "wildcard",
+      "reason": "Hook 관리 유틸리티 스크립트는 안전함"
+    }
+  ],
+  "settings": {
+    "warning_only_mode": false,
+    "allow_user_override": false,
+    "logging_enabled": true,
+    "sentry_enabled": true,
+    "use_settings_local": true
+  }
+}
