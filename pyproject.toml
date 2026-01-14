@@ -1,11 +1,17 @@
-[project]
+[tool.poetry]
 name = "claude-code-hooks"
 version = "0.1.0"
-description = "Add your description here"
+description = "Claude Code Hooks for Signal Harmony"
 readme = "README.md"
-requires-python = ">=3.11"
-dependencies = [
-    "rich>=14.2.0",
-    "sentry-sdk>=2.43.0",
-    "typer>=0.20.0",
-]
+authors = ["Signal Harmony <dev@signal-harmony.dev>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+rich = "^14.2.0"
+sentry-sdk = "^2.43.0"
+typer = "^0.20.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
