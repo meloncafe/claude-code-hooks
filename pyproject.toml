@@ -8,7 +8,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-rich = "^14.3.2"
+rich = "^14.3.3"
 sentry-sdk = "^2.53.0"
 typer = "^0.24.0"
 
