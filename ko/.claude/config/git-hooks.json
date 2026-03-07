@@ -16,7 +16,7 @@
     "git_usage_rules": [
       "GPG 서명 필수 (--no-gpg-sign 금지)",
       "Hook 검증 필수 (--no-verify 금지)",
-      "작업 디렉토리 변경 금지 (git -C 금지)",
+      "작업 디렉토리 변경 금지 (서브모듈 외 git -C 금지)",
       "gpgsign 설정 변경 금지"
     ],
 
