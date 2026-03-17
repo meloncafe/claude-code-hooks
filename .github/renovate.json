@@ -41,7 +41,11 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "automerge": false
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "major-update"
+      ]
     },
     {
       "description": "Security updates - high priority",
@@ -57,5 +61,6 @@
     "labels": [
       "security"
     ]
-  }
+  },
+  "automergeStrategy": "squash"
 }
