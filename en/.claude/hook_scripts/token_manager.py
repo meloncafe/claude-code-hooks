@@ -36,9 +36,40 @@ console = Console()
 # Shared Utilities
 # ============================================================================
 
+def _detect_session_id() -> Optional[str]:
+    """Detect Claude session ID from environment variables.
+
+    1st: CLAUDE_SESSION_ID (injected in hook subprocesses)
+    2nd: CLAUDE_CODE_SESSION_ACCESS_TOKEN JWT session_id claim
+    """
+    session_id = os.environ.get('CLAUDE_SESSION_ID')
+    if session_id:
+        return session_id
+
+    token = os.environ.get('CLAUDE_CODE_SESSION_ACCESS_TOKEN', '')
+    if not token:
+        return None
+
+    try:
+        import base64
+        import json as _json
+        parts = token.split('.')
+        if len(parts) < 2:
+            return None
+        payload = parts[1]
+        padding = 4 - len(payload) % 4
+        if padding != 4:
+            payload += '=' * padding
+        decoded = base64.urlsafe_b64decode(payload)
+        claims = _json.loads(decoded)
+        return str(claims.get('session_id', '')) or None
+    except (ValueError, Exception):
+        return None
+
+
 def get_session_file_path() -> Optional[Path]:
     """Get current session .jsonl file path."""
-    session_id = os.environ.get('CLAUDE_SESSION_ID')
+    session_id = _detect_session_id()
 
     project_path = Path.cwd()
     # Remove leading / before replacing remaining / with -
