@@ -10,7 +10,7 @@ package-mode = false
 python = ">=3.14,<4"
 rich = "^15.0.0"
 sentry-sdk = "^2.60.0"
-typer = "^0.25.1"
+typer = "^0.26.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]
