@@ -9,7 +9,7 @@ package-mode = false
 [tool.poetry.dependencies]
 python = ">=3.14,<4"
 rich = "^15.0.0"
-sentry-sdk = "^2.61.1"
+sentry-sdk = "^2.62.0"
 typer = "^0.26.7"
 
 [build-system]
