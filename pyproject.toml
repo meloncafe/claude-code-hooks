@@ -9,8 +9,8 @@ package-mode = false
 [tool.poetry.dependencies]
 python = ">=3.14,<4"
 rich = "^15.0.0"
-sentry-sdk = "^2.66.1"
-typer = "^0.27.0"
+sentry-sdk = "^2.67.1"
+typer = "^0.27.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]
