@@ -13,5 +13,5 @@ sentry-sdk = "^2.68.0"
 typer = "^0.27.1"
 
 [build-system]
-requires = ["poetry-core>=2.0.0"]
+requires = ["poetry-core>=2.4.1"]
 build-backend = "poetry.core.masonry.api"
